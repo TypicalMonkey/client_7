@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import PropTypes from 'prop-types';
 import './App.css';
 
 const Products = ({ cart, setCart }) => {
@@ -55,6 +56,11 @@ const Products = ({ cart, setCart }) => {
   );
 };
 
+Products.propTypes = {
+  cart: PropTypes.object.isRequired,
+  setCart: PropTypes.func.isRequired,
+};
+
 const Cart = ({ cart, setCart, userBalance, setUserBalance, products }) => {
   const [message, setMessage] = useState('');
 
@@ -63,7 +69,7 @@ const Cart = ({ cart, setCart, userBalance, setUserBalance, products }) => {
       const product = products.find(p => p.id === parseInt(productId));
       return total + cart[productId] * product.price;
     }, 0);
-  
+
     if (totalAmount > userBalance) {
       setMessage('Insufficient balance');
     } else {
@@ -92,6 +98,14 @@ const Cart = ({ cart, setCart, userBalance, setUserBalance, products }) => {
       {message && <p>{message}</p>}
     </div>
   );
+};
+
+Cart.propTypes = {
+  cart: PropTypes.object.isRequired,
+  setCart: PropTypes.func.isRequired,
+  userBalance: PropTypes.number.isRequired,
+  setUserBalance: PropTypes.func.isRequired,
+  products: PropTypes.array.isRequired,
 };
 
 const App = () => {
